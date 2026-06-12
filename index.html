@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Houston AI Solutions</title>
+<style>
+:root{--black:#080808;--dark:#111;--card:#1a1a1a;--border:#2a2a2a;--accent:#0EA5E9;--glow:rgba(14,165,233,0.15);--soft:rgba(14,165,233,0.07);--white:#fff;--gray:#888;--light:#ccc;}
+*{box-sizing:border-box;margin:0;padding:0;}html{scroll-behavior:smooth;}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--black);color:var(--white);line-height:1.6;overflow-x:hidden;}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:16px 60px;background:rgba(8,8,8,0.94);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);}
+.nav-logo{font-size:15px;font-weight:800;}.nl{color:var(--accent);}
+.nav-links{display:flex;gap:28px;list-style:none;}
+.nav-links a{text-decoration:none;color:var(--gray);font-size:13px;font-weight:500;}
+.nav-links a:hover{color:var(--white);}
+.nav-cta{background:var(--accent);color:#000;font-size:13px;font-weight:700;padding:9px 22px;border-radius:6px;border:none;cursor:pointer;}
+.nav-cta:hover{opacity:.9;transform:translateY(-1px);}
+#hero{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:120px 40px 80px;position:relative;overflow:hidden;}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(14,165,233,0.04) 1px,transparent 1px),linear-gradient(90deg,rgba(14,165,233,0.04) 1px,transparent 1px);background-size:60px 60px;mask-image:radial-gradient(ellipse 80% 60% at 50% 50%,black 30%,transparent 100%);}
+.hero-glow{position:absolute;width:600px;height:600px;border-radius:50%;background:radial-gradient(circle,rgba(14,165,233,0.1) 0%,transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none;}
+.badge{display:inline-flex;align-items:center;gap:7px;background:var(--glow);border:1px solid var(--accent);border-color:rgba(0EA5E94D;border-radius:100px;padding:6px 16px;font-size:12px;font-weight:600;color:var(--accent);margin-bottom:28px;position:relative;}
+.bdot{width:6px;height:6px;border-radius:50%;background:var(--accent);animation:pd 1.8s infinite;}
+@keyframes pd{0%,100%{opacity:1}50%{opacity:.6}}
+h1{font-size:clamp(44px,7vw,84px);font-weight:900;line-height:1.05;letter-spacing:-2px;margin-bottom:24px;position:relative;}
+.accent{color:var(--accent);}
+.hero-sub{font-size:clamp(16px,2vw,20px);color:var(--gray);max-width:580px;margin:0 auto 44px;line-height:1.6;position:relative;}
+.btns{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;position:relative;}
+.bp{background:var(--accent);color:#000;font-size:15px;font-weight:700;padding:14px 32px;border-radius:8px;border:none;cursor:pointer;display:inline-flex;align-items:center;gap:8px;}
+.bp:hover{opacity:.9;transform:translateY(-2px);}
+.bs{background:transparent;color:var(--white);font-size:15px;font-weight:600;padding:14px 32px;border-radius:8px;border:1px solid var(--border);cursor:pointer;}
+.bs:hover{border-color:var(--accent);color:var(--accent);}
+.stats{display:flex;margin-top:80px;border:1px solid var(--border);border-radius:16px;background:var(--card);overflow:hidden;max-width:700px;margin-left:auto;margin-right:auto;}
+.stat{flex:1;padding:22px;text-align:center;border-right:1px solid var(--border);}
+.stat:last-child{border-right:none;}
+.sn{font-size:30px;font-weight:900;color:var(--accent);line-height:1;margin-bottom:5px;}
+.sl{font-size:11px;color:var(--gray);}
+section{padding:90px 60px;max-width:1200px;margin:0 auto;}
+.lbl{font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:14px;}
+.ttl{font-size:clamp(28px,4vw,48px);font-weight:800;letter-spacing:-1px;line-height:1.15;margin-bottom:18px;}
+.sub{font-size:16px;color:var(--gray);max-width:520px;line-height:1.65;}
+.fs{background:var(--dark);max-width:100%;border-top:1px solid var(--border);border-bottom:1px solid var(--border);}
+.fs .inner{max-width:1200px;margin:0 auto;padding:90px 60px;}
+.pg{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:50px;}
+.pc{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:26px;transition:border-color 0.2s;}
+.pc:hover{border-color:var(--accent);}
+.pi{font-size:24px;margin-bottom:12px;}
+.pt{font-size:15px;font-weight:700;margin-bottom:7px;}
+.pd{font-size:13px;color:var(--gray);line-height:1.6;}
+.sg{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--border);border-radius:16px;overflow:hidden;margin-top:50px;}
+.st{padding:30px 24px;border-right:1px solid var(--border);transition:background 0.2s;}
+.st:hover{background:var(--soft);}
+.st:last-child{border-right:none;}
+.stn{font-size:11px;font-weight:800;letter-spacing:2px;color:var(--accent);margin-bottom:12px;}
+.sti{font-size:26px;margin-bottom:12px;}
+.stt{font-size:15px;font-weight:700;margin-bottom:8px;}
+.std{font-size:12px;color:var(--gray);line-height:1.6;}
+.ag{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+.ac{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:24px;transition:all 0.2s;position:relative;overflow:hidden;}
+.ac::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--accent);transform:scaleX(0);transition:transform 0.3s;transform-origin:left;}
+.ac:hover{border-color:var(--accent);transform:translateY(-3px);}
+.ac:hover::before{transform:scaleX(1);}
+.ae{font-size:26px;margin-bottom:12px;}
+.an{font-size:14px;font-weight:700;margin-bottom:7px;}
+.ad{font-size:12px;color:var(--gray);line-height:1.6;margin-bottom:12px;}
+.at{display:inline-block;background:var(--glow);color:var(--accent);font-size:10px;font-weight:700;padding:3px 10px;border-radius:100px;}
+.dpf{position:relative;border-radius:16px;overflow:hidden;border:1px solid var(--border);cursor:pointer;transition:all 0.3s;}
+.dpf:hover{transform:translateY(-4px);border-color:var(--accent);}
+.dps{background:var(--card);height:300px;}
+.dbar{background:#111;padding:10px 14px;display:flex;align-items:center;gap:6px;border-bottom:1px solid var(--border);}
+.dd{width:9px;height:9px;border-radius:50%;}
+.durl{flex:1;margin-left:6px;background:#080808;border-radius:5px;padding:4px 10px;font-size:10px;color:var(--gray);}
+.dov{position:absolute;inset:0;background:rgba(0,0,0,0.55);display:flex;align-items:center;justify-content:center;backdrop-filter:blur(2px);}
+.dpf:hover .dov{background:rgba(0,0,0,0.35);}
+.pb{width:68px;height:68px;border-radius:50%;background:var(--accent);display:flex;align-items:center;justify-content:center;font-size:24px;box-shadow:0 0 0 12px var(--glow);color:#000;}
+.chips{display:flex;flex-wrap:wrap;gap:7px;margin-top:24px;}
+.chip{background:var(--card);border:1px solid var(--border);border-radius:100px;padding:5px 12px;font-size:11px;color:var(--gray);cursor:pointer;}
+.chip:hover{border-color:var(--accent);color:var(--accent);}
+.wg{display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;margin-top:50px;}
+.wl{list-style:none;display:flex;flex-direction:column;gap:18px;}
+.wi{display:flex;gap:14px;align-items:flex-start;}
+.wc{width:22px;height:22px;border-radius:50%;background:var(--glow);border:1px solid var(--accent);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;font-size:10px;color:var(--accent);font-weight:700;}
+.wtt{font-size:14px;font-weight:700;margin-bottom:3px;}
+.wtd{font-size:12px;color:var(--gray);line-height:1.55;}
+.bb{background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden;}
+.bbar{background:#111;padding:11px 18px;display:flex;align-items:center;gap:7px;border-bottom:1px solid var(--border);}
+.bdot{width:9px;height:9px;border-radius:50%;}
+.burl{flex:1;background:#080808;border-radius:5px;padding:4px 10px;font-size:10px;color:var(--gray);margin-left:6px;}
+.bc{padding:20px;}
+.bl{display:flex;gap:9px;margin-bottom:10px;align-items:flex-start;}
+.bic{width:26px;height:26px;border-radius:50%;background:var(--glow);display:flex;align-items:center;justify-content:center;font-size:12px;flex-shrink:0;}
+.bt{font-size:11px;color:var(--light);line-height:1.5;}
+.bt strong{color:var(--accent);}
+.bdiv{height:1px;background:var(--border);margin:12px 0;}
+#cta{text-align:center;padding:110px 60px;}
+#cta .sub{margin:0 auto 40px;text-align:center;}
+footer{border-top:1px solid var(--border);padding:36px 60px;display:flex;justify-content:space-between;align-items:center;color:var(--gray);font-size:13px;}
+.fl{font-weight:800;}.fl span{color:var(--accent);}
+.fi{opacity:0;transform:translateY(22px);transition:opacity 0.6s ease,transform 0.6s ease;}
+.fi.visible{opacity:1;transform:translateY(0);}
+.modal{position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,0.92);backdrop-filter:blur(8px);display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity 0.3s;}
+.modal.open{opacity:1;pointer-events:all;}
+.modal-inner{width:96vw;height:92vh;border-radius:16px;overflow:hidden;border:1px solid var(--border);position:relative;transform:scale(0.96) translateY(16px);transition:transform 0.35s cubic-bezier(0.16,1,0.3,1);}
+.modal.open .modal-inner{transform:scale(1) translateY(0);}
+.modal-close{position:absolute;top:12px;right:12px;z-index:10;width:32px;height:32px;border-radius:50%;background:rgba(0,0,0,0.7);border:1px solid var(--border);color:var(--gray);font-size:15px;display:flex;align-items:center;justify-content:center;cursor:pointer;}
+.modal iframe{width:100%;height:100%;border:none;display:block;}
+@media(max-width:900px){nav{padding:14px 20px;}.nav-links{display:none;}section{padding:60px 20px;}.fs .inner{padding:60px 20px;}.pg,.wg{grid-template-columns:1fr;}.sg,.ag{grid-template-columns:1fr 1fr;}footer{flex-direction:column;gap:10px;text-align:center;}#cta{padding:80px 20px;}}
+@media(max-width:580px){.sg,.ag{grid-template-columns:1fr;}.stats{flex-direction:column;}.stat{border-right:none;border-bottom:1px solid var(--border);}.stat:last-child{border-bottom:none;}}
+</style>
+</head>
+<body>
+<nav>
+  <div class="nav-logo"><span class="nl">Houston</span> AI Solutions</div>
+  <ul class="nav-links">
+    <li><a href="#problem">The Problem</a></li><li><a href="#how">How It Works</a></li>
+    <li><a href="#agents">Agents</a></li><li><a href="#demo-section">Demo</a></li><li><a href="#pricing">Pricing</a></li>
+  </ul>
+  <button class="nav-cta" onclick="openDemo()">▶ Watch Demo</button>
+</nav>
+
+<div id="hero">
+  <div class="hero-grid"></div><div class="hero-glow"></div>
+  <div class="badge"><span class="bdot"></span>AI Agents for Small & Mid-Size Businesses</div>
+  <h1>Your business.<br/>Running on <span class="accent">autopilot.</span></h1>
+  <p class="hero-sub">We deploy custom AI agents that handle admin, billing follow-up, client intake, and daily briefings — fully automated, always under your control.</p>
+  <div class="btns">
+    <button class="bp" onclick="openDemo()"><span style="font-size:18px">▶</span> Watch Live Demo</button>
+    <a href="#how" class="bs">See How It Works →</a>
+  </div>
+  <div class="stats fi">
+    <div class="stat"><div class="sn">8 hrs</div><div class="sl">Saved per week</div></div>
+    <div class="stat"><div class="sn">90 min</div><div class="sl">One-time setup</div></div>
+    <div class="stat"><div class="sn">$0</div><div class="sl">Without your approval</div></div>
+    <div class="stat"><div class="sn">24/7</div><div class="sl">Always running</div></div>
+  </div>
+</div>
+
+<section id="problem">
+  <div class="lbl">The Problem</div>
+  <div class="ttl">You didn't start this business<br/>to do admin all day.</div>
+  <p class="sub">Regardless of industry — the pattern is identical. Great at their craft. Drowning in the business of running the business.</p>
+  <div class="pg">
+    <div class="pc fi"><div class="pi">🧾</div><div class="pt">Chasing unpaid invoices</div><div class="pd">You know who owes you money. You just don't have time to follow up — so it sits there. Weeks go by.</div></div>
+    <div class="pc fi"><div class="pi">📊</div><div class="pt">Flying blind on your numbers</div><div class="pd">You don't know if last month was profitable until it's too late to do anything about it.</div></div>
+    <div class="pc fi"><div class="pi">📣</div><div class="pt">Marketing that never happens</div><div class="pd">You've been meaning to post and send that email campaign for three weeks. It never gets done.</div></div>
+    <div class="pc fi"><div class="pi">📥</div><div class="pt">Leads going cold</div><div class="pd">Someone reaches out. You see it hours later. They've already moved on to a competitor.</div></div>
+  </div>
+</section>
+
+<div class="fs" id="how">
+  <div class="inner">
+    <div class="lbl fi">How It Works</div>
+    <div class="ttl fi">Set up once. Runs forever.</div>
+    <p class="sub fi">We handle the full setup in one 90-minute session. From that point forward, your agents run every day.</p>
+    <div class="sg fi">
+      <div class="st"><div class="stn">01</div><div class="sti">🔌</div><div class="stt">Connect your tools</div><div class="std">QuickBooks, Gmail, your payment processor. One-click OAuth — no passwords shared.</div></div>
+      <div class="st"><div class="stn">02</div><div class="sti">⚙️</div><div class="stt">Configure agents</div><div class="std">We set up agents for your specific industry. Not a generic template.</div></div>
+      <div class="st"><div class="stn">03</div><div class="sti">⏰</div><div class="stt">Schedule everything</div><div class="std">Morning brief at 7am. Invoice chase every Monday. Content every Wednesday. Automatic.</div></div>
+      <div class="st"><div class="stn">04</div><div class="sti">✅</div><div class="stt">Review &amp; approve</div><div class="std">Every draft awaits your approval. Nothing sends without your say-so.</div></div>
+    </div>
+  </div>
+</div>
+
+<section id="agents">
+  <div style="margin-bottom:50px" class="fi">
+    <div class="lbl">What We Deploy</div>
+    <div class="ttl">Six agents. Every gap in your business, covered.</div>
+    <p class="sub">Each agent owns one job and runs on schedule — so nothing falls through the cracks.</p>
+  </div>
+  <div class="ag">
+    <div class="ac fi"><div class="ae">📊</div><div class="an">Morning Brief</div><div class="ad">Cash, revenue, at-risk clients, and your top 3 priorities — delivered before your day starts.</div><span class="at">Daily · 7am</span></div>
+    <div class="ac fi"><div class="ae">🔔</div><div class="an">Retention Agent</div><div class="ad">Monitors every customer for disengagement. Drafts re-engagement messages before they cancel.</div><span class="at">Weekly</span></div>
+    <div class="ac fi"><div class="ae">🧾</div><div class="an">Invoice Chase</div><div class="ad">Scans AR every Monday. Tone-calibrated reminders for every overdue account.</div><span class="at">Weekly</span></div>
+    <div class="ac fi"><div class="ae">📣</div><div class="an">Content Agent</div><div class="ad">Social posts, email newsletters, and campaigns every week — in your voice.</div><span class="at">Weekly</span></div>
+    <div class="ac fi"><div class="ae">📥</div><div class="an">Lead Response</div><div class="ad">Responds to every new inquiry within the hour with a booking link.</div><span class="at">Real-time</span></div>
+    <div class="ac fi"><div class="ae">📈</div><div class="an">Monthly Report</div><div class="ad">Full revenue, churn, and performance summary on the 1st of every month.</div><span class="at">Monthly</span></div>
+  </div>
+</section>
+
+<div class="fs" id="demo-section">
+  <div class="inner" style="display:grid;grid-template-columns:1fr 1fr;gap:70px;align-items:center;">
+    <div>
+      <div class="lbl fi">See It In Action</div>
+      <div class="ttl fi">Watch a real business owner<br/>conversation play out live.</div>
+      <p class="sub fi">A 7-scene interactive demo — from the opening conversation through pricing and ROI. See agents pull data, draft messages, and generate content in real time.</p>
+      <div class="chips fi">
+        <span class="chip" onclick="openDemo()">💬 The Problem</span>
+        <span class="chip" onclick="openDemo()">🏭 Pick Industry</span>
+        <span class="chip" onclick="openDemo()">📊 Morning Brief</span>
+        <span class="chip" onclick="openDemo()">✅ Drafts &amp; Approvals</span>
+        <span class="chip" onclick="openDemo()">💰 Pricing &amp; ROI</span>
+      </div>
+      <div style="margin-top:28px" class="fi">
+        <button onclick="openDemo()" class="bp"><span style="font-size:18px">▶</span> Launch Interactive Demo</button>
+        <div style="margin-top:10px;font-size:12px;color:var(--gray)">7 scenes · ~5 min · No signup required</div>
+      </div>
+    </div>
+    <div class="fi" onclick="openDemo()" style="cursor:pointer">
+      <div class="dpf">
+        <div class="dps">
+          <div class="dbar"><div class="dd" style="background:#ff5f57"></div><div class="dd" style="background:#febc2e"></div><div class="dd" style="background:#28c840"></div><div class="durl">Houston AI Solutions — Live Demo</div></div>
+          <div style="padding:18px">
+            <div style="display:flex;gap:10px;margin-bottom:12px"><div style="width:42px;height:42px;border-radius:50%;background:var(--glow);border:1px solid var(--accent);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0">👤</div><div style="background:#222;border:1px solid #2a2a2a;border-radius:10px;padding:9px 12px;font-size:11px;color:#ccc;line-height:1.6;max-width:280px">"I know what I need to do to grow. I just never have the time. The actual work always takes priority."</div></div>
+            <div style="display:flex;gap:10px;justify-content:flex-end;margin-bottom:12px"><div style="background:var(--accent);border-radius:10px;padding:9px 12px;font-size:11px;color:#000;font-weight:600;line-height:1.6;max-width:280px">That's not a you problem — that's a systems problem. Fixable in 90 minutes.</div><div style="width:42px;height:42px;border-radius:50%;background:var(--glow);border:1px solid var(--accent);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:800;color:var(--accent);flex-shrink:0">HAI</div></div>
+            <div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:9px 12px"><div style="font-size:10px;color:var(--accent);font-weight:700;letter-spacing:1px;margin-bottom:4px">MORNING BRIEF — PULLING LIVE DATA...</div><div style="font-size:11px;color:var(--gray)">Revenue · Clients · Content · Leads...</div></div>
+          </div>
+        </div>
+        <div class="dov"><div class="pb">▶</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="fs" id="pricing">
+  <div class="inner">
+    <div class="lbl">Pricing</div>
+    <div class="ttl">One package.<br/>Everything included.</div>
+    <p class="sub">No tiers. No feature gates. Every client gets the full agent stack, full support, and full results.</p>
+    <div style="max-width:660px;margin:50px auto 0">
+      <div style="background:linear-gradient(180deg,var(--glow),var(--card));border:1.5px solid var(--accent);border-radius:20px;padding:44px;text-align:center;position:relative;overflow:hidden">
+        <div style="position:absolute;top:0;left:0;right:0;height:3px;background:var(--accent)"></div>
+        <div style="font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:10px">Full-Service AI Automation</div>
+        <div style="font-size:60px;font-weight:900;letter-spacing:-3px;line-height:1;color:var(--white);margin-bottom:7px">$5,000</div>
+        <div style="font-size:14px;color:var(--gray);margin-bottom:6px">One-time setup &amp; configuration</div>
+        <div style="display:inline-flex;align-items:center;gap:6px;background:var(--glow);border:1px solid var(--accent);border-radius:100px;padding:5px 14px;font-size:12px;color:var(--accent);font-weight:600;margin-bottom:28px">Split into 2 payments of $2,500 available</div>
+        <div style="height:1px;background:var(--border);margin-bottom:28px"></div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:9px;text-align:left;margin-bottom:28px">
+          <div style="display:flex;gap:7px;font-size:13px;color:var(--light)"><span style="color:var(--accent);font-weight:700">✓</span> All 6 AI agents deployed</div>
+          <div style="display:flex;gap:7px;font-size:13px;color:var(--light)"><span style="color:var(--accent);font-weight:700">✓</span> Unlimited tool connections</div>
+          <div style="display:flex;gap:7px;font-size:13px;color:var(--light)"><span style="color:var(--accent);font-weight:700">✓</span> Full 90-min setup session</div>
+          <div style="display:flex;gap:7px;font-size:13px;color:var(--light)"><span style="color:var(--accent);font-weight:700">✓</span> Industry-specific configuration</div>
+          <div style="display:flex;gap:7px;font-size:13px;color:var(--light)"><span style="color:var(--accent);font-weight:700">✓</span> Live by end of Week 1</div>
+          <div style="display:flex;gap:7px;font-size:13px;color:var(--light)"><span style="color:var(--accent);font-weight:700">✓</span> Ongoing tuning &amp; improvements</div>
+        </div>
+        <div style="background:var(--black);border:1px solid var(--border);border-radius:12px;padding:18px;margin-bottom:24px">
+          <div style="font-size:13px;color:var(--gray);margin-bottom:6px">Then, ongoing support &amp; maintenance</div>
+          <div style="font-size:38px;font-weight:900;letter-spacing:-2px;color:var(--accent);line-height:1;margin-bottom:4px">$499<span style="font-size:15px;font-weight:400;color:var(--gray)">/month</span></div>
+          <div style="font-size:12px;color:var(--gray)">Daily briefs · Monthly reports · Agent improvements · Priority support</div>
+        </div>
+        <button onclick="openDemo()" style="width:100%;background:var(--accent);color:#000;font-size:15px;font-weight:700;padding:15px;border-radius:10px;border:none;cursor:pointer">▶ Watch the Demo First</button>
+        <div style="margin-top:10px;font-size:12px;color:var(--gray)">Free demo call · See your actual data · No commitment</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="fs" id="why">
+  <div class="inner">
+    <div class="wg">
+      <div>
+        <div class="lbl fi">{why_label}</div>
+        <div class="ttl fi">We don't just build it.<br/>We run it with you.</div>
+        <p class="sub fi" style="margin-bottom:0">Most consultants hand you a tool and walk away. We stay in it — tuning agents and adding automations as your business grows.</p>
+        <ul class="wl" style="margin-top:36px">
+          <li class="wi fi"><div class="wc">✓</div><div><div class="wtt">Industry-specific, not generic</div><div class="wtd">Every agent is configured for your trade, your tools, and your customers.</div></div></li>
+          <li class="wi fi"><div class="wc">✓</div><div><div class="wtt">You control every output</div><div class="wtd">Every email, post, and report requires your approval. The agents prepare — you decide.</div></div></li>
+          <li class="wi fi"><div class="wc">✓</div><div><div class="wtt">90-minute setup, then hands-free</div><div class="wtd">One session and everything is live. No IT. No learning curve. No software to babysit.</div></div></li>
+          <li class="wi fi"><div class="wc">✓</div><div><div class="wtt">Monthly impact reports included</div><div class="wtd">We show you hours saved, revenue recovered, and content published — every month.</div></div></li>
+        </ul>
+      </div>
+      <div class="fi">
+        <div class="bb">
+          <div class="bbar"><div class="bdot" style="background:#ff5f57"></div><div class="bdot" style="background:#febc2e"></div><div class="bdot" style="background:#28c840"></div><div class="burl">Morning Brief — Your Business</div></div>
+          <div class="bc"><div class="bl"><div class="bic">💰</div><div class="bt"><strong>Revenue & Cash:</strong> $24,800 this month — up 14% vs last month. $7,200 in outstanding receivables.</div></div><div class="bl"><div class="bic">⚠️</div><div class="bt"><strong>Needs Attention:</strong> 2 high-value clients haven't engaged in 2+ weeks. Retention drafts prepared.</div></div><div class="bdiv"></div><div class="bl"><div class="bic">📣</div><div class="bt"><strong>Content ready:</strong> Last week's post reached 1,840 people. This week's draft awaits your approval.</div></div><div class="bl"><div class="bic">🎯</div><div class="bt"><strong>Your top 3 today:</strong> Approve 3 invoice reminders → Review 2 re-engagement drafts → Post content.</div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<section id="cta">
+  <div class="lbl">{cta_title}</div>
+  <div class="ttl">{tagline}</div>
+  <p class="sub">Book a free demo and we'll run your Morning Brief live with your actual data. No pitch deck. Just your business, moving the way it should.</p>
+  <div class="btns">
+    <button onclick="openDemo()" class="bp"><span style="font-size:18px">▶</span> Watch the Demo</button>
+    <a href="#problem" class="bs">Learn More →</a>
+  </div>
+</section>
+
+<footer>
+  <div class="fl">Houston <span>AI</span> Solutions</div>
+  <div>Built to make your business run itself.</div>
+</footer>
+
+<div class="modal" id="modal" onclick="if(event.target===this)closeDemo()">
+  <div class="modal-inner">
+    <button class="modal-close" onclick="closeDemo()">✕</button>
+    <iframe id="df" src="" title="Houston AI Solutions Demo"></iframe>
+  </div>
+</div>
+
+<script>
+const obs=new IntersectionObserver(e=>e.forEach(x=>{{if(x.isIntersecting)x.target.classList.add('visible');}}),{{threshold:0.1}});
+document.querySelectorAll('.fi').forEach(el=>obs.observe(el));
+document.querySelectorAll('.ac').forEach((c,i)=>c.style.transitionDelay=(i*0.07)+'s');
+document.querySelectorAll('.pc').forEach((c,i)=>c.style.transitionDelay=(i*0.09)+'s');
+function openDemo(){{document.getElementById('df').src='{demo_file}';document.getElementById('modal').classList.add('open');document.body.style.overflow='hidden';}}
+function closeDemo(){{document.getElementById('modal').classList.remove('open');document.body.style.overflow='';setTimeout(()=>document.getElementById('df').src='',400);}}
+document.addEventListener('keydown',e=>{{if(e.key==='Escape')closeDemo();}});
+</script>
+</body>
+</html>

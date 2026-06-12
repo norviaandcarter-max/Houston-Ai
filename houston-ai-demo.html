@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Houston AI Solutions — Live Demo</title>
+<style>
+:root{--black:#06090F;--dark:#0C1018;--card:#111827;--card2:#162032;--border:#1F2937;--blue:#0EA5E9;--blue-glow:rgba(14,165,233,0.15);--blue-soft:rgba(14,165,233,0.07);--purple:#8B5CF6;--purple-glow:rgba(139,92,246,0.12);--cyan:#22D3EE;--white:#FFFFFF;--gray:#6B7280;--light:#CBD5E1;--mid:#94A3B8;--red:#F87171;--amber:#FBBF24;--green:#34D399;}
+*{box-sizing:border-box;margin:0;padding:0;}html,body{height:100%;overflow:hidden;}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--black);color:var(--white);display:flex;flex-direction:column;height:100vh;}
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:12px 28px;background:var(--dark);border-bottom:1px solid var(--border);flex-shrink:0;}
+.logo{font-size:13px;font-weight:800;color:var(--white);}.logo .h{color:var(--blue);}.logo .ai{color:var(--purple);}
+.progress-wrap{display:flex;align-items:center;gap:10px;flex:1;justify-content:center;}
+.progress-steps{display:flex;gap:5px;}
+.ps{width:24px;height:3px;border-radius:2px;background:var(--border);transition:background 0.4s;}
+.ps.done{background:var(--blue);}.ps.active{background:rgba(14,165,233,0.5);}
+.step-label{font-size:11px;color:var(--gray);}
+.skip-btn{font-size:11px;color:var(--gray);cursor:pointer;background:none;border:none;padding:4px 10px;}
+.skip-btn:hover{color:var(--white);}
+.main{display:flex;flex:1;overflow:hidden;}
+.sidebar{width:240px;background:var(--dark);border-right:1px solid var(--border);display:flex;flex-direction:column;flex-shrink:0;overflow-y:auto;}
+.sidebar-header{padding:14px 18px 10px;border-bottom:1px solid var(--border);}
+.sidebar-title{font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;background:linear-gradient(90deg,var(--blue),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:4px;}
+.sidebar-name{font-size:13px;font-weight:700;}.sidebar-role{font-size:11px;color:var(--gray);}
+.sidebar-nav{padding:8px;flex:1;}
+.snav-item{display:flex;align-items:center;gap:10px;padding:9px 10px;border-radius:8px;cursor:pointer;transition:all 0.15s;margin-bottom:2px;}
+.snav-item:hover{background:var(--blue-soft);}
+.snav-item.active{background:var(--blue-glow);border:1px solid rgba(14,165,233,0.2);}
+.snav-dot{width:7px;height:7px;border-radius:50%;background:var(--border);flex-shrink:0;}
+.snav-item.done .snav-dot{background:var(--blue);}
+.snav-item.active .snav-dot{background:var(--blue);box-shadow:0 0 0 3px rgba(14,165,233,0.25);}
+.snav-text{font-size:12px;color:var(--gray);}
+.snav-item.active .snav-text{color:var(--white);font-weight:600;}
+.snav-item.done .snav-text{color:var(--mid);}
+.sidebar-quote{margin:10px;padding:12px;background:var(--blue-soft);border:1px solid rgba(14,165,233,0.15);border-radius:10px;}
+.sq-label{font-size:9px;font-weight:700;letter-spacing:1.5px;color:var(--blue);text-transform:uppercase;margin-bottom:5px;}
+.sq-text{font-size:11px;color:var(--light);line-height:1.5;font-style:italic;}
+.content{flex:1;overflow-y:auto;padding:28px 36px;}
+.scene-tag{display:inline-flex;align-items:center;gap:5px;background:var(--blue-glow);border:1px solid rgba(14,165,233,0.25);border-radius:100px;padding:3px 11px;font-size:10px;font-weight:700;color:var(--blue);margin-bottom:10px;}
+.dot{width:5px;height:5px;border-radius:50%;background:var(--blue);animation:pulse 1.8s infinite;}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.scene-title{font-size:22px;font-weight:800;letter-spacing:-0.5px;line-height:1.2;margin-bottom:6px;}
+.scene-sub{font-size:13px;color:var(--gray);line-height:1.6;max-width:560px;margin-bottom:20px;}
+.chat-area{display:flex;flex-direction:column;gap:12px;margin-bottom:20px;}
+.bubble-row{display:flex;gap:10px;align-items:flex-end;}
+.bubble-row.us{flex-direction:row-reverse;}
+.av{width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;}
+.av.owner{background:#1a1f2e;}
+.av.us{background:var(--blue-glow);border:1px solid rgba(14,165,233,0.3);font-size:8px;font-weight:800;color:var(--blue);}
+.bubble{max-width:460px;padding:11px 14px;border-radius:14px;font-size:13px;line-height:1.6;}
+.bubble.them{background:var(--card2);border:1px solid var(--border);color:var(--light);border-bottom-left-radius:4px;}
+.bubble.us{background:linear-gradient(135deg,var(--blue),var(--purple));color:#fff;font-weight:500;border-bottom-right-radius:4px;}
+.bname{font-size:10px;font-weight:700;letter-spacing:0.5px;margin-bottom:4px;}
+.bname.owner{color:var(--gray);}.bname.us-n{color:rgba(255,255,255,0.7);text-align:right;}
+.dwin{background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden;margin-bottom:18px;}
+.dtbar{background:#0C1018;padding:9px 14px;display:flex;align-items:center;gap:6px;border-bottom:1px solid var(--border);}
+.dtd{width:9px;height:9px;border-radius:50%;}
+.dtab{flex:1;margin-left:7px;background:#06090F;border-radius:5px;padding:3px 10px;font-size:10px;color:var(--gray);}
+.dbody{padding:18px;}
+.dr{display:flex;align-items:flex-start;gap:10px;padding:10px 0;border-bottom:1px solid var(--border);opacity:0;transform:translateY(6px);transition:all 0.4s;}
+.dr.v{opacity:1;transform:translateY(0);}
+.dr:last-child{border-bottom:none;}
+.di{width:30px;height:30px;border-radius:7px;background:var(--blue-glow);border:1px solid rgba(14,165,233,0.2);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0;}
+.dl{font-size:11px;font-weight:700;color:var(--blue);margin-bottom:2px;}
+.dv{font-size:12px;color:var(--light);line-height:1.5;}
+.db{font-size:10px;font-weight:700;padding:2px 8px;border-radius:100px;align-self:center;flex-shrink:0;}
+.br{background:rgba(248,113,113,0.15);color:var(--red);}
+.bg{background:rgba(52,211,153,0.15);color:var(--green);}
+.bb{background:var(--blue-glow);color:var(--blue);}
+.inv-table{width:100%;border-collapse:collapse;}
+.inv-table th{font-size:10px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--gray);padding:7px 10px;text-align:left;border-bottom:1px solid var(--border);}
+.inv-table td{padding:9px 10px;font-size:12px;border-bottom:1px solid var(--border);color:var(--light);}
+.inv-table tr:last-child td{border-bottom:none;}
+.ir{opacity:0;transform:translateX(-8px);transition:all 0.4s;}
+.ir.v{opacity:1;transform:translateX(0);}
+.abtn{background:linear-gradient(135deg,var(--blue),var(--purple));color:#fff;font-size:10px;font-weight:700;padding:4px 11px;border-radius:20px;border:none;cursor:pointer;}
+.abtn.done{background:var(--blue-glow);color:var(--blue);cursor:default;}
+.ind-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:16px;}
+.ic{background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:14px;cursor:pointer;transition:all 0.2s;text-align:center;}
+.ic:hover,.ic.sel{border-color:rgba(14,165,233,0.4);background:var(--blue-glow);}
+.ic .icheck{width:16px;height:16px;border-radius:50%;background:var(--blue);color:#fff;font-size:8px;margin:5px auto 0;display:none;align-items:center;justify-content:center;}
+.ic.sel .icheck{display:flex;}
+.ag-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;}
+.ag{background:var(--card2);border:1px solid var(--border);border-radius:9px;padding:12px;opacity:0;transform:translateY(6px);transition:all 0.4s;}
+.ag.v{opacity:1;transform:translateY(0);}
+.ag-h{display:flex;align-items:center;gap:8px;margin-bottom:5px;}
+.ag-i{width:26px;height:26px;border-radius:6px;background:var(--blue-glow);display:flex;align-items:center;justify-content:center;font-size:13px;flex-shrink:0;}
+.ag-n{font-size:12px;font-weight:700;}
+.ag-d{font-size:11px;color:var(--gray);line-height:1.45;}
+.ag-t{display:inline-block;font-size:9px;font-weight:700;padding:2px 7px;border-radius:100px;margin-top:5px;background:var(--blue-glow);color:var(--blue);}
+.res-box{background:linear-gradient(135deg,var(--blue-glow),var(--purple-glow));border:1px solid rgba(14,165,233,0.25);border-radius:12px;padding:18px;margin-bottom:14px;}
+.res-title{font-size:14px;font-weight:800;margin-bottom:10px;background:linear-gradient(90deg,var(--blue),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.res-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;}
+.rg{text-align:center;}
+.rn{font-size:22px;font-weight:900;color:var(--blue);line-height:1;}
+.rl{font-size:10px;color:var(--gray);margin-top:3px;}
+.bottombar{padding:14px 36px;background:var(--dark);border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0;}
+.back-btn{background:none;border:1px solid var(--border);color:var(--gray);font-size:13px;font-weight:600;padding:9px 20px;border-radius:8px;cursor:pointer;}
+.back-btn:hover{border-color:var(--mid);color:var(--white);}
+.next-btn{background:linear-gradient(135deg,var(--blue),var(--purple));color:#fff;font-size:13px;font-weight:700;padding:10px 26px;border-radius:8px;border:none;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;gap:8px;}
+.next-btn:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(14,165,233,0.3);}
+.sc{font-size:12px;color:var(--gray);}
+.scene{display:none;}.scene.active{display:block;}
+.lbadge{display:inline-flex;align-items:center;gap:5px;background:var(--blue-glow);border:1px solid rgba(14,165,233,0.3);border-radius:100px;padding:3px 9px;font-size:10px;font-weight:700;color:var(--blue);}
+.ldot{width:5px;height:5px;border-radius:50%;background:var(--blue);animation:pulse 1s infinite;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.fup{animation:fadeUp 0.5s ease forwards;}
+@keyframes scan{0%{transform:translateX(-100%)}100%{transform:translateX(100vw)}}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <div class="logo"><span class="h">Houston</span> <span class="ai">AI</span> Solutions</div>
+  <div class="progress-wrap"><div class="progress-steps" id="ps"></div><div class="step-label" id="sl">Introduction</div></div>
+  <button class="skip-btn" onclick="skipToEnd()">Skip to pricing →</button>
+</div>
+<div class="main">
+  <div class="sidebar">
+    <div class="sidebar-header">
+      <div class="sidebar-title">Live Demo</div>
+      <div class="sidebar-name">Your Business</div>
+      <div class="sidebar-role">Any industry · Any size</div>
+    </div>
+    <div class="sidebar-nav" id="sn"></div>
+    <div class="sidebar-quote"><div class="sq-label">The insight</div><div class="sq-text" id="sqt">"Most business owners are experts at their craft and amateurs at running a business. AI levels that playing field instantly."</div></div>
+  </div>
+  <div class="content" id="mc"></div>
+</div>
+<div class="bottombar">
+  <button class="back-btn" id="bb" onclick="prev()">← Back</button>
+  <div class="sc" id="sc">Step 1 of 7</div>
+  <button class="next-btn" id="nb" onclick="next()"><span id="nl">Continue</span> <span>→</span></button>
+</div>
+<script>
+const S=[
+  {n:"The Problem",q:'"I didn\'t start this business to spend 10 hours a week doing admin. But here I am."',t:"Scene 1 · The universal problem",h:"Every small business owner faces the same wall.",s:"Regardless of industry — the pattern is identical. Great at their craft. Drowning in the business of running the business.",c:`<div class="chat-area"><div class="bubble-row them"><div class="av owner">👤</div><div><div class="bname owner">BUSINESS OWNER</div><div class="bubble them">I know what I need to do to grow — follow up with leads faster, post consistently, stop chasing overdue invoices manually. I just never have the time.</div></div></div><div class="bubble-row us"><div><div class="bname us-n">HOUSTON AI SOLUTIONS</div><div class="bubble us">That's not a you problem. That's a systems problem. Every business owner we work with says the exact same thing — and it's fixable in 90 minutes.</div></div><div class="av us">HAI</div></div><div class="bubble-row them"><div class="av owner">👤</div><div><div class="bname owner">BUSINESS OWNER</div><div class="bubble them">What do you mean 90 minutes?</div></div></div><div class="bubble-row us"><div><div class="bname us-n">HOUSTON AI SOLUTIONS</div><div class="bubble us">We connect your existing tools, configure AI agents for your specific business, schedule them to run automatically — and walk away. Let me show you exactly what that looks like.</div></div><div class="av us">HAI</div></div></div>`},
+  {n:"Pick Your Industry",q:'"I didn\'t realize this was built specifically for businesses like mine."',t:"Scene 2 · Industry-specific configuration",h:"Built for your industry. Not a generic template.",s:"We configure different agents depending on what your business actually needs. Select your industry below.",c:`<div class="ind-grid" id="ig"><div class="ic" onclick="selInd(this,'home')"><div style="font-size:22px;margin-bottom:6px">🔧</div><div style="font-size:12px;font-weight:700">Home Services</div><div style="font-size:10px;color:var(--gray)">Contractors · HVAC · Cleaners</div><div class="icheck">✓</div></div><div class="ic" onclick="selInd(this,'legal')"><div style="font-size:22px;margin-bottom:6px">⚖️</div><div style="font-size:12px;font-weight:700">Legal</div><div style="font-size:10px;color:var(--gray)">Law firms · Attorneys</div><div class="icheck">✓</div></div><div class="ic" onclick="selInd(this,'fitness')"><div style="font-size:22px;margin-bottom:6px">💪</div><div style="font-size:12px;font-weight:700">Fitness</div><div style="font-size:10px;color:var(--gray)">Gyms · Studios · Trainers</div><div class="icheck">✓</div></div><div class="ic" onclick="selInd(this,'realestate')"><div style="font-size:22px;margin-bottom:6px">🏠</div><div style="font-size:12px;font-weight:700">Real Estate</div><div style="font-size:10px;color:var(--gray)">Agents · Brokerages</div><div class="icheck">✓</div></div><div class="ic" onclick="selInd(this,'medical')"><div style="font-size:22px;margin-bottom:6px">🏥</div><div style="font-size:12px;font-weight:700">Medical / Dental</div><div style="font-size:10px;color:var(--gray)">Practices · Clinics</div><div class="icheck">✓</div></div><div class="ic" onclick="selInd(this,'restaurant')"><div style="font-size:22px;margin-bottom:6px">🍽️</div><div style="font-size:12px;font-weight:700">Restaurant</div><div style="font-size:10px;color:var(--gray)">Restaurants · Catering</div><div class="icheck">✓</div></div></div><div id="ir2" style="font-size:12px;color:var(--gray);font-style:italic;margin-bottom:16px">← Select your industry above</div><div class="chat-area"><div class="bubble-row us"><div><div class="bname us-n">HOUSTON AI SOLUTIONS</div><div class="bubble us">We've deployed across 20+ industries. The core architecture is the same — but every agent is configured for how your specific business operates.</div></div><div class="av us">HAI</div></div></div>`},
+  {n:"Your Agents",q:'"These are exactly the things I\'ve been meaning to automate for two years."',t:"Scene 3 · Your agent stack",h:"Six agents. Each one owns a different problem.",s:"Once connected, these agents run on schedule — briefing you, following up, and building your brand every single day.",c:`<div class="ag-grid" id="ag"></div><div class="chat-area" style="margin-top:18px"><div class="bubble-row them"><div class="av owner">👤</div><div><div class="bname owner">BUSINESS OWNER</div><div class="bubble them">These are exactly the things I've been meaning to automate for two years. I just didn't know it was possible.</div></div></div><div class="bubble-row us"><div><div class="bname us-n">HOUSTON AI SOLUTIONS</div><div class="bubble us">One 90-minute setup. After that, these run without you. Let's show you the morning brief live.</div></div><div class="av us">HAI</div></div></div>`,e:function(){const a=[{i:'📊',n:'Morning Brief',d:'Cash, revenue, top priorities — delivered every morning before your day starts.',t:'Daily 7am'},{i:'🔔',n:'Retention Agent',d:'Flags at-risk clients before they cancel. Drafts re-engagement messages.',t:'Weekly'},{i:'🧾',n:'Invoice Chase',d:'Scans overdue payments every Monday. Drafts calibrated reminders.',t:'Weekly'},{i:'📣',n:'Content Agent',d:'Social posts and email campaigns generated weekly in your voice.',t:'Weekly'},{i:'📥',n:'Lead Response',d:'Responds to every new inquiry within the hour with a booking link.',t:'Real-time'},{i:'📈',n:'Monthly Report',d:'Full revenue, churn, and performance summary on the 1st of every month.',t:'Monthly'}];const c=document.getElementById('ag');a.forEach((x,i)=>{const d=document.createElement('div');d.className='ag';d.innerHTML=`<div class="ag-h"><div class="ag-i">${x.i}</div><div class="ag-n">${x.n}</div></div><div class="ag-d">${x.d}</div><span class="ag-t">${x.t}</span>`;c.appendChild(d);setTimeout(()=>d.classList.add('v'),150+i*100);});}},
+  {n:"Morning Brief",q:'"I\'ve never seen all of this in one place. This is what I needed every Monday."',t:"Scene 4 · Morning Brief live",h:"This is what 7am looks like.",s:"Before you open your laptop, your AI agent has already reviewed your entire business and prepared your day.",c:`<div class="dwin"><div class="dtbar"><div class="dtd" style="background:#ff5f57"></div><div class="dtd" style="background:#febc2e"></div><div class="dtd" style="background:#28c840"></div><div class="dtab">Morning Brief — Your Business</div><span class="lbadge" style="margin-left:8px"><span class="ldot"></span>LIVE</span></div><div style="height:2px;background:linear-gradient(90deg,transparent,var(--blue),var(--purple),transparent);animation:scan 1.5s linear 2"></div><div class="dbody" id="br"></div></div><div class="chat-area"><div class="bubble-row them"><div class="av owner">👤</div><div><div class="bname owner">BUSINESS OWNER</div><div class="bubble them">I normally spend 45 minutes piecing this together from four different apps. This just does it automatically?</div></div></div><div class="bubble-row us"><div><div class="bname us-n">HOUSTON AI SOLUTIONS</div><div class="bubble us">Every morning. And the follow-up drafts are already written — want to see one approved live?</div></div><div class="av us">HAI</div></div></div>`,e:function(){const rows=[{i:'💰',l:'Revenue & Cash',v:'$24,800 this month — up 14% vs last month. $7,200 in outstanding receivables. 3 invoices overdue.',b:'+14% MoM',bc:'bg',d:400},{i:'⚠️',l:'Needs Attention',v:'2 high-value clients haven\'t engaged in 2+ weeks. Retention drafts prepared. 4 new leads need same-day response.',b:'Action needed',bc:'br',d:800},{i:'📣',l:'Content & Marketing',v:'Last week\'s post reached 1,840 people. This week\'s draft is ready for your approval.',b:'1,840 reach',bc:'bb',d:1200},{i:'🎯',l:'Your Top 3 Today',v:'1. Approve 3 invoice reminders  2. Review 2 re-engagement drafts  3. Post this week\'s content',b:null,bc:null,d:1600}];const c=document.getElementById('br');rows.forEach(r=>{const d=document.createElement('div');d.className='dr';d.innerHTML=`<div class="di">${r.i}</div><div style="flex:1"><div class="dl">${r.l}</div><div class="dv">${r.v}</div></div>${r.b?`<div class="db ${r.bc}">${r.b}</div>`:''}`;c.appendChild(d);setTimeout(()=>d.classList.add('v'),r.d);});}},
+  {n:"Drafts in Action",q:'"It sounds like me. How does it know how I talk to clients?"',t:"Scene 5 · Approve drafts in one click",h:"Every follow-up. Already written.",s:"Agents draft every message before you see it. You review and approve in one click — or edit anything you want.",c:`<div class="dwin"><div class="dtbar"><div class="dtd" style="background:#ff5f57"></div><div class="dtd" style="background:#febc2e"></div><div class="dtd" style="background:#28c840"></div><div class="dtab">Drafts ready for approval — 5 items</div></div><div class="dbody"><table class="inv-table"><thead><tr><th>Contact</th><th>Type</th><th>Agent</th><th>Status</th><th>Action</th></tr></thead><tbody id="db"></tbody></table></div></div><div class="chat-area" style="margin-top:14px"><div class="bubble-row them"><div class="av owner">👤</div><div><div class="bname owner">BUSINESS OWNER</div><div class="bubble them">These sound exactly like me. Not like a robot. How does it know how I communicate?</div></div></div><div class="bubble-row us"><div><div class="bname us-n">HOUSTON AI SOLUTIONS</div><div class="bubble us">It learns from your emails and past messages during setup. Most clients approve 80–90% of drafts as-is.</div></div><div class="av us">HAI</div></div></div>`,e:function(){const d=[{c:'Anderson (client)',t:'Overdue invoice — $3,200',a:'Invoice Chase'},{c:'Kim (prospect)',t:'Lead follow-up — 5 days ago',a:'Lead Response'},{c:'Torres (at-risk)',t:'Re-engagement — 14 days inactive',a:'Retention'},{c:'All subscribers',t:'Weekly email newsletter',a:'Content'},{c:'Instagram',t:'Weekly social post',a:'Content'}];const b=document.getElementById('db');d.forEach((x,i)=>{const tr=document.createElement('tr');tr.className='ir';tr.innerHTML=`<td style="font-weight:600">${x.c}</td><td style="color:var(--mid);font-size:11px">${x.t}</td><td><span style="background:var(--blue-glow);color:var(--blue);font-size:9px;font-weight:700;padding:2px 7px;border-radius:100px">${x.a}</span></td><td><span style="color:var(--green);font-size:11px;font-weight:600">● Ready</span></td><td><button class="abtn" onclick="this.textContent='✓ Sent';this.className='abtn done'">Approve</button></td>`;b.appendChild(tr);setTimeout(()=>tr.classList.add('v'),150+i*110);});}},
+  {n:"Pricing",q:'"$499 a month after that? That\'s a no-brainer."',t:"Scene 6 · Investment & ROI",h:"One package. Everything included.",s:"No tiers. No feature gates. Every client gets the full stack, full support, and full results.",c:`<div style="max-width:600px;margin:0 auto"><div style="background:linear-gradient(180deg,rgba(14,165,233,0.12),var(--card));border:1.5px solid rgba(14,165,233,0.35);border-radius:18px;padding:36px;text-align:center;position:relative;overflow:hidden"><div style="position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--blue),var(--purple))"></div><div style="font-size:10px;font-weight:700;letter-spacing:2px;text-transform:uppercase;background:linear-gradient(90deg,var(--blue),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:10px">Full-Service AI Automation — Everything Included</div><div style="font-size:52px;font-weight:900;letter-spacing:-3px;line-height:1;background:linear-gradient(135deg,#fff,var(--blue));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:6px">$5,000</div><div style="font-size:13px;color:var(--gray);margin-bottom:6px">One-time setup & full configuration</div><div style="display:inline-flex;align-items:center;gap:6px;background:var(--blue-glow);border:1px solid rgba(14,165,233,0.25);border-radius:100px;padding:4px 13px;font-size:11px;color:var(--blue);font-weight:600;margin-bottom:24px">Split into 2 payments of $2,500 available</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:7px;text-align:left;margin-bottom:20px"><div style="font-size:12px;color:var(--light)"><span style="color:var(--blue)">✓</span> All 6 agents deployed</div><div style="font-size:12px;color:var(--light)"><span style="color:var(--blue)">✓</span> Unlimited tool connections</div><div style="font-size:12px;color:var(--light)"><span style="color:var(--blue)">✓</span> 90-min setup session</div><div style="font-size:12px;color:var(--light)"><span style="color:var(--blue)">✓</span> Industry-specific config</div><div style="font-size:12px;color:var(--light)"><span style="color:var(--blue)">✓</span> Live by end of Week 1</div><div style="font-size:12px;color:var(--light)"><span style="color:var(--blue)">✓</span> Ongoing tuning included</div></div><div style="background:var(--card);border:1px solid var(--border);border-radius:10px;padding:14px"><div style="font-size:11px;color:var(--gray);margin-bottom:5px">Then, ongoing support & maintenance</div><div style="font-size:32px;font-weight:900;letter-spacing:-1.5px;background:linear-gradient(135deg,var(--blue),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;line-height:1;margin-bottom:3px">$499<span style="font-size:14px;font-weight:400;-webkit-text-fill-color:var(--gray)">/month</span></div><div style="font-size:11px;color:var(--gray)">Daily briefs · Monthly reports · Agent improvements · Priority support</div></div></div><div style="background:var(--blue-glow);border:1px solid rgba(14,165,233,0.2);border-radius:9px;padding:12px;margin-top:10px;font-size:12px;color:var(--light);line-height:1.7"><strong style="color:var(--blue)">The math:</strong> Average client saves 8–10 hrs/week. At $75–$250/hr that\'s $600–$2,500/week recovered. $499/month = $17/day. Setup pays for itself in 2–4 weeks.</div></div><div class="chat-area" style="margin-top:16px"><div class="bubble-row them"><div class="av owner">👤</div><div><div class="bname owner">BUSINESS OWNER</div><div class="bubble them">$5,000 setup and $499 a month — and the setup pays for itself in a few weeks from recovered invoices? That's a no-brainer.</div></div></div><div class="bubble-row us"><div><div class="bname us-n">HOUSTON AI SOLUTIONS</div><div class="bubble us">Every time. Book a free demo call — we\'ll show you your actual numbers live before you spend a dollar.</div></div><div class="av us">HAI</div></div></div>`},
+  {n:"Ready to Start",q:'"When can we set this up?"',t:"Scene 7 · The decision",h:"One session. Runs forever.",s:"Here's what happens when you say yes — and what the first 30 days look like.",c:`<div class="res-box"><div class="res-title">What you get in your first 30 days</div><div class="res-grid"><div class="rg"><div class="rn">20+</div><div class="rl">Morning briefs delivered</div></div><div class="rg"><div class="rn">8–10 hrs</div><div class="rl">Saved every week</div></div><div class="rg"><div class="rn">$0</div><div class="rl">Sent without approval</div></div><div class="rg"><div class="rn">10:1</div><div class="rl">Average ROI</div></div></div></div><div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px"><div style="background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:14px"><div style="font-size:10px;font-weight:700;color:var(--blue);letter-spacing:1px;text-transform:uppercase;margin-bottom:7px">Week 1</div><div style="font-size:11px;color:var(--light);line-height:1.8">✓ 90-min setup session<br/>✓ Tools connected<br/>✓ Agents configured<br/>✓ First brief delivered</div></div><div style="background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:14px"><div style="font-size:10px;font-weight:700;color:var(--purple);letter-spacing:1px;text-transform:uppercase;margin-bottom:7px">Weeks 2–4</div><div style="font-size:11px;color:var(--light);line-height:1.8">✓ Agents running daily<br/>✓ Invoices followed up<br/>✓ Content published<br/>✓ Leads responded to</div></div><div style="background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:14px"><div style="font-size:10px;font-weight:700;color:var(--cyan);letter-spacing:1px;text-transform:uppercase;margin-bottom:7px">Month 1+</div><div style="font-size:11px;color:var(--light);line-height:1.8">✓ Monthly impact report<br/>✓ Agents tuned<br/>✓ New automations added<br/>✓ Business runs itself</div></div></div><div class="chat-area" style="margin-top:18px"><div class="bubble-row them"><div class="av owner">👤</div><div><div class="bname owner">BUSINESS OWNER</div><div class="bubble them">When can we set this up?</div></div></div><div class="bubble-row us"><div><div class="bname us-n">HOUSTON AI SOLUTIONS</div><div class="bubble us">This week. Book a free demo call and we\'ll run the Morning Brief live with your actual data — so you see the value before you spend a dollar. 🚀</div></div><div class="av us">HAI</div></div></div>`}
+];
+let cur=0;
+function bn(){const n=document.getElementById('sn');const p=document.getElementById('ps');n.innerHTML='';p.innerHTML='';S.forEach((s,i)=>{const d=document.createElement('div');d.className='snav-item'+(i===cur?' active':i<cur?' done':'');d.onclick=()=>go(i);d.innerHTML=`<div class="snav-dot"></div><div class="snav-text">${s.n}</div>`;n.appendChild(d);const g=document.createElement('div');g.className='ps'+(i<cur?' done':i===cur?' active':'');p.appendChild(g);});}
+function rs(i){const s=S[i];const mc=document.getElementById('mc');mc.innerHTML=`<div class="scene active fup"><div style="margin-bottom:22px"><div class="scene-tag"><span class="dot"></span>${s.t}</div><div class="scene-title">${s.h}</div><div class="scene-sub">${s.s}</div></div>${s.c}</div>`;document.getElementById('sqt').textContent=s.q;document.getElementById('sl').textContent=s.n;document.getElementById('sc').textContent=`Step ${i+1} of ${S.length}`;document.getElementById('nl').textContent=i===S.length-1?'Book a Free Demo':'Continue';document.getElementById('bb').style.visibility=i===0?'hidden':'visible';if(s.e)setTimeout(s.e,200);bn();mc.scrollTop=0;}
+function next(){if(cur<S.length-1){cur++;rs(cur);}}
+function prev(){if(cur>0){cur--;rs(cur);}}
+function go(i){cur=i;rs(i);}
+function skipToEnd(){cur=S.length-1;rs(cur);}
+function selInd(el,id){document.querySelectorAll('.ic').forEach(c=>c.classList.remove('sel'));el.classList.add('sel');const m={home:'Home Services: Morning Brief + Invoice Chase + Content + Cash Flow. Tools: QuickBooks, Gmail, PayPal, Canva.',legal:'Legal: Morning Case Brief + AR Chase + Client Intake + Deadline Monitor. Tools: Clio, Gmail, QuickBooks, Calendar.',fitness:'Fitness: Performance Brief + Member Retention + Failed Payment Chase + Content. Tools: Mindbody, Stripe, Gmail, Instagram.',realestate:'Real Estate: Pipeline Brief + Lead Response + Listing Content + CRM. Tools: CRM, Gmail, Calendar.',medical:'Medical/Dental: Patient Brief + Appointment Follow-up + Review Builder + Content. Tools: EHR, billing, Gmail.',restaurant:'Restaurant: Revenue Brief + Review Response + Social Content + Supplier Follow-up. Tools: Toast/Square, Gmail, Instagram.'};const r=document.getElementById('ir2');r.style.cssText='font-size:12px;color:var(--blue);background:var(--blue-glow);border:1px solid rgba(14,165,233,0.2);border-radius:7px;padding:8px 12px;margin-bottom:14px';r.textContent='✓ '+m[id];}
+rs(0);
+</script>
+</body>
+</html>
